@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - University Library</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #0a0a0a;
+        color: #e2e8f0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 440px;
+        background: #0f0f0f;
+        padding: 48px;
+        border-radius: 20px;
+        border: 1px solid #1e293b;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .header h1 {
+        font-size: 2.2em;
+        font-weight: 700;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 12px;
+    }
+
+    .header p {
+        color: #94a3b8;
+        font-size: 1.1em;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #e2e8f0;
+        font-weight: 500;
+        font-size: 0.95em;
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    .input-group i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3b82f6;
+        z-index: 2;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 16px 16px 16px 48px;
+        border: 1.5px solid #334155;
+        border-radius: 12px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        background: #1e293b;
+        color: #e2e8f0;
+    }
+
+    input::placeholder {
+        color: #64748b;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background: #27364b;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .btn {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: #ffffff;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    .guest-link {
+        text-align: center;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid #1e293b;
+    }
+
+    .guest-link a {
+        color: #60a5fa;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .guest-link a:hover {
+        color: #3b82f6;
+    }
+
+    .error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #f87171;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        margin-bottom: 24px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .test-accounts {
+        background: rgba(59, 130, 246, 0.1);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        margin-top: 32px;
+    }
+
+    .test-accounts h4 {
+        color: #3b82f6;
+        margin-bottom: 12px;
+        font-size: 0.95em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .test-account {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+    }
+
+    .test-account:last-child {
+        margin-bottom: 0;
+    }
+
+    .username {
+        color: #e2e8f0;
+        font-weight: 500;
+    }
+
+    .password {
+        color: #94a3b8;
+        font-family: monospace;
+    }
+
+    .role {
+        color: #3b82f6;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="header">
+    <h1><i class="fas fa-book"></i> VIT Bhopal Library</h1>
+    <p>Sign in to your account</p>
+  </div>
+
+  <div th:if="${error}" class="error">
+    <i class="fas fa-exclamation-circle"></i>
+    <span th:text="${error}"></span>
+  </div>
+
+  <form th:action="@{/login}" method="post">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" name="username" required placeholder="Enter your username">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+  </form>
+
+  <div class="guest-link">
+    <a th:href="@{/books}">
+      <i class="fas fa-eye"></i> Continue as Guest
+    </a>
+  </div>
+
+  <div class="test-accounts">
+    <h4><i class="fas fa-key"></i> Test Accounts</h4>
+    <div class="test-account">
+      <span class="username">student1</span>
+      <span class="password">pass123</span>
+      <span class="role">Student</span>
+    </div>
+    <div class="test-account">
+      <span class="username">librarian1</span>
+      <span class="password">admin123</span>
+      <span class="role">Librarian</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('form');
+      const button = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function(e) {
+          const originalText = button.innerHTML;
+          button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+          button.disabled = true;
+
+          setTimeout(() => {
+              button.innerHTML = originalText;
+              button.disabled = false;
+          }, 3000);
+      });
+
+      // Auto-focus username field
+      const usernameInput = document.getElementById('username');
+      setTimeout(() => usernameInput.focus(), 100);
+  });
+</script>
+</body>
+</html>

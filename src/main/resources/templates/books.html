@@ -1,0 +1,649 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>VIT Bhopal Library</title>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Top Header Bar */
+        .header-bar {
+            background: #0f0f0f;
+            border-bottom: 1px solid #1e293b;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .university-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .university-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .university-text h1 {
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2px;
+        }
+
+        .university-text p {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .login-icon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .login-icon i {
+            font-size: 1.3em;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .page-title p {
+            color: #94a3b8;
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* User Panel (when logged in) */
+        .user-panel {
+            background: #0f0f0f;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #1e293b;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.2em;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .user-details h3 {
+            color: #f8fafc;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 1.1em;
+        }
+
+        .user-details .role {
+            color: #3b82f6;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: #1e293b;
+            color: #94a3b8;
+            border-color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #27364b;
+            border-color: #475569;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .btn-outline:hover {
+            background: #3b82f6;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: #0f0f0f;
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid #1e293b;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px;
+            border: 1.5px solid #334155;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .search-input::placeholder {
+            color: #64748b;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #27364b;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Books Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .book-card {
+            background: #0f0f0f;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid #1e293b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .book-card:hover {
+            border-color: #475569;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+            transform: translateY(-4px);
+        }
+
+        .book-title {
+            color: #f8fafc;
+            font-size: 1.3em;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .book-author {
+            color: #94a3b8;
+            font-size: 1em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .book-author i {
+            color: #3b82f6;
+        }
+
+        .book-isbn {
+            color: #64748b;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .book-isbn i {
+            color: #1d4ed8;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid;
+        }
+
+        .status-available {
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-available i {
+            color: #22c55e;
+        }
+
+        .status-reserved {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .status-reserved i {
+            color: #ef4444;
+        }
+
+        /* Book Actions */
+        .book-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .book-actions .btn {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .empty-state h3 {
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-panel {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .university-name {
+                justify-content: center;
+            }
+
+            .page-title h2 {
+                font-size: 2em;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(15, 15, 15, 0.3);
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+      </style>
+    </head>
+    <body>
+    <!-- Top Header Bar -->
+    <header class="header-bar">
+      <div class="header-content">
+        <div class="university-name">
+          <div class="university-logo">
+            VIT
+          </div>
+          <div class="university-text">
+            <h1>VIT Bhopal Library</h1>
+            <p>Knowledge • Innovation • Excellence</p>
+          </div>
+        </div>
+
+        <!-- Login Icon (only show when user is not logged in) -->
+        <a th:if="${user == null}" th:href="@{/login}" class="login-icon" title="Login to your account">
+          <i class="fas fa-sign-in-alt"></i>
+        </a>
+
+        <!-- User menu when logged in -->
+        <div th:if="${user != null}" class="nav-links">
+          <a th:href="@{/reservations}" class="btn btn-outline">
+            <i class="fas fa-calendar-check"></i> My Reservations
+          </a>
+          <th:block th:if="${user.role == 'LIBRARIAN'}">
+            <a th:href="@{/admin}" class="btn btn-outline">
+              <i class="fas fa-cog"></i> Admin
+            </a>
+          </th:block>
+          <a th:href="@{/logout}" class="btn btn-secondary">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Page Title -->
+      <div class="page-title">
+        <h2>Available Books</h2>
+        <p>Discover and reserve books from our extensive collection</p>
+      </div>
+
+      <!-- User Panel (when logged in) -->
+      <div th:if="${user != null}" class="user-panel">
+        <div class="user-info">
+          <div class="user-avatar">
+            <span th:text="${user.username.substring(0, 1).toUpperCase()}"></span>
+          </div>
+          <div class="user-details">
+            <h3 th:text="${user.username}">User</h3>
+            <div class="role" th:text="${user.role}">Role</div>
+          </div>
+        </div>
+        <div class="nav-links">
+                    <span style="color: #94a3b8; font-size: 0.9em;">
+                        <i class="fas fa-user-check"></i> Welcome back!
+                    </span>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-box">
+          <form th:action="@{/books/search}" method="get">
+            <input type="text" name="query" class="search-input"
+                   placeholder="🔍 Search books by title, author, or ISBN..."
+                   th:value="${query}">
+          </form>
+        </div>
+        <div style="margin-top: 20px;">
+          <a th:href="@{/books}" class="btn btn-secondary">
+            <i class="fas fa-rotate-right"></i> Show All Books
+          </a>
+        </div>
+      </div>
+
+      <!-- Books Grid -->
+      <div class="books-grid">
+        <div th:each="book : ${books}" class="book-card">
+          <h3 class="book-title" th:text="${book.title}">Book Title</h3>
+          <p class="book-author">
+            <i class="fas fa-user-edit"></i>
+            <span th:text="${book.author}">Author</span>
+          </p>
+          <p class="book-isbn">
+            <i class="fas fa-barcode"></i>
+            ISBN: <span th:text="${book.isbn}">ISBN</span>
+          </p>
+
+          <div th:if="${book.available}" class="status-badge status-available">
+            <i class="fas fa-check-circle"></i> Available
+          </div>
+          <div th:unless="${book.available}" class="status-badge status-reserved">
+            <i class="fas fa-clock"></i> Reserved
+          </div>
+
+          <div class="book-actions">
+            <div th:if="${user != null and book.available}">
+              <form th:action="@{/books/reserve/{id}(id=${book.id})}" method="post">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-bookmark"></i> Reserve Book
+                </button>
+              </form>
+            </div>
+            <div th:if="${user != null and not book.available}">
+              <small style="color: #f87171;"><i class="fas fa-info-circle"></i> Currently reserved</small>
+            </div>
+            <div th:if="${user == null and book.available}">
+              <a href="/login"><small style="color: #60a5fa;"><i class="fas fa-sign-in-alt"></i> Login to reserve</small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div th:if="${books.empty}" class="empty-state">
+        <i class="fas fa-book-open"></i>
+        <h3>No Books Found</h3>
+        <p>We couldn't find any books matching your search criteria.</p>
+        <a th:href="@{/books}" class="btn btn-primary" style="margin-top: 20px;">
+          <i class="fas fa-eye"></i> Browse All Books
+        </a>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Add loading states to buttons
+          const forms = document.querySelectorAll('form');
+          forms.forEach(form => {
+              form.addEventListener('submit', function(e) {
+                  const button = this.querySelector('button[type="submit"]');
+                  if (button) {
+                      const originalText = button.innerHTML;
+                      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                      button.disabled = true;
+
+                      // Revert after 3 seconds (in case of error)
+                      setTimeout(() => {
+                          button.innerHTML = originalText;
+                          button.disabled = false;
+                      }, 3000);
+                  }
+              });
+          });
+
+          // Auto-focus search input
+          const searchInput = document.querySelector('.search-input');
+          if (searchInput && !searchInput.value) {
+              setTimeout(() => searchInput.focus(), 300);
+          }
+
+          // Add staggered animation to book cards
+          const cards = document.querySelectorAll('.book-card');
+          cards.forEach((card, index) => {
+              card.style.animationDelay = `${index * 0.1}s`;
+              card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+          });
+      });
+
+      // Add CSS animation
+      const style = document.createElement('style');
+      style.textContent = `
+          @keyframes fadeInUp {
+              from {
+                  opacity: 0;
+                  transform: translateY(20px);
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0);
+              }
+          }
+          .book-card {
+              opacity: 0;
+          }
+      `;
+      document.head.appendChild(style);
+    </script>
+    </body>
+    </html>
