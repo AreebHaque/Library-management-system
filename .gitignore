@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Data ###
+data/
+*.db
+*.mv.db
+*.trace.db
+*.sqlite
+*.h2.db
