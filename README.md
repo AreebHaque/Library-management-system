@@ -187,4 +187,4 @@ Database Testing
     Check reservation relationships
 
 ## Screenshots
-![image]("Screenshot 2025-11-23 181055.png")
+Screenshots are available in the main branch
