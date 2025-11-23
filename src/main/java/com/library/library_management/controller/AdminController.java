@@ -79,7 +79,13 @@ public class AdminController {
             return "redirect:/books";
         }
 
+        // First, delete all reservations for this book
+        List<reservation> reservations = reservationRepository.findByBookId(bookId);
+        reservationRepository.deleteAll(reservations);
+
+        // Then delete the book
         bookRepository.deleteById(bookId);
+
         return "redirect:/admin";
     }
 
